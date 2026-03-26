@@ -6,6 +6,7 @@ export interface ProductData {
   originalPrice: number;
   unit: string;
   image: string;
+  tag?: "best-seller" | "trending" | "low-stock";
 }
 
 export interface CategoryData {
@@ -32,6 +33,7 @@ export const PRODUCTS: ProductData[] = [
     originalPrice: 269,
     unit: "5kg bag",
     image: "/assets/generated/grocery-atta.dim_400x400.jpg",
+    tag: "best-seller",
   },
   {
     id: "g2",
@@ -50,6 +52,7 @@ export const PRODUCTS: ProductData[] = [
     originalPrice: 133,
     unit: "1kg",
     image: "/assets/generated/grocery-dal.dim_400x400.jpg",
+    tag: "low-stock",
   },
   {
     id: "g4",
@@ -97,6 +100,7 @@ export const PRODUCTS: ProductData[] = [
     originalPrice: 22,
     unit: "26g",
     image: "/assets/generated/snacks-chips.dim_400x400.jpg",
+    tag: "trending",
   },
   {
     id: "s2",
@@ -115,6 +119,7 @@ export const PRODUCTS: ProductData[] = [
     originalPrice: 63,
     unit: "200g",
     image: "/assets/generated/snacks-bhujia.dim_400x400.jpg",
+    tag: "best-seller",
   },
   {
     id: "s4",
@@ -142,6 +147,7 @@ export const PRODUCTS: ProductData[] = [
     originalPrice: 103,
     unit: "107g",
     image: "/assets/generated/snacks-pringles.dim_400x400.jpg",
+    tag: "trending",
   },
 
   // Beverages
@@ -162,6 +168,7 @@ export const PRODUCTS: ProductData[] = [
     originalPrice: 124,
     unit: "250g",
     image: "/assets/generated/bev-tea.dim_400x400.jpg",
+    tag: "best-seller",
   },
   {
     id: "b3",
@@ -171,6 +178,7 @@ export const PRODUCTS: ProductData[] = [
     originalPrice: 315,
     unit: "100g",
     image: "/assets/generated/bev-coffee.dim_400x400.jpg",
+    tag: "low-stock",
   },
   {
     id: "b4",
@@ -189,6 +197,7 @@ export const PRODUCTS: ProductData[] = [
     originalPrice: 129,
     unit: "250ml",
     image: "/assets/generated/bev-redbull.dim_400x400.jpg",
+    tag: "trending",
   },
   {
     id: "b6",
@@ -218,6 +227,7 @@ export const PRODUCTS: ProductData[] = [
     originalPrice: 229,
     unit: "400ml",
     image: "/assets/generated/care-shampoo.dim_400x400.jpg",
+    tag: "best-seller",
   },
   {
     id: "p3",
@@ -236,6 +246,7 @@ export const PRODUCTS: ProductData[] = [
     originalPrice: 204,
     unit: "1 pc",
     image: "/assets/generated/care-razor.dim_400x400.jpg",
+    tag: "low-stock",
   },
   {
     id: "p5",
@@ -274,6 +285,7 @@ export const PRODUCTS: ProductData[] = [
     originalPrice: 215,
     unit: "1kg",
     image: "/assets/generated/home-detergent.dim_400x400.jpg",
+    tag: "best-seller",
   },
   {
     id: "h4",
@@ -292,6 +304,7 @@ export const PRODUCTS: ProductData[] = [
     originalPrice: 78,
     unit: "1 refill",
     image: "/assets/generated/home-mosquito.dim_400x400.jpg",
+    tag: "low-stock",
   },
 ];
 

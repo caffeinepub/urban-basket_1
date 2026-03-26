@@ -1,12 +1,21 @@
+import { Lock, RefreshCw, ShieldCheck, Truck } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { CTABanner } from "../components/CTABanner";
 import { CartDrawer } from "../components/CartDrawer";
 import { CategoryNav } from "../components/CategoryNav";
 import { CategorySection } from "../components/CategorySection";
 import { FloatingCart } from "../components/FloatingCart";
+import { FloatingWhatsApp } from "../components/FloatingWhatsApp";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import { CATEGORIES } from "../data/products";
+
+const TRUST_ITEMS = [
+  { icon: Truck, label: "Fast Delivery" },
+  { icon: ShieldCheck, label: "100% Genuine" },
+  { icon: RefreshCw, label: "Easy Returns" },
+  { icon: Lock, label: "Secure Payments" },
+];
 
 export function CategoriesPage() {
   const [activeCategoryId, setActiveCategoryId] = useState(CATEGORIES[0].id);
@@ -58,7 +67,8 @@ export function CategoriesPage() {
     <div className="min-h-screen bg-background">
       <Header />
       <main>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-8 pb-2">
+        {/* Page header — compact */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-5 pb-1 mt-2 animate-fade-slide-up">
           <h1 className="text-2xl md:text-3xl font-bold text-foreground">
             Browse Categories
           </h1>
@@ -66,6 +76,24 @@ export function CategoriesPage() {
             Quality packaged essentials, delivered to your door
           </p>
         </div>
+
+        {/* Trust bar — tight */}
+        <div className="bg-muted/30 border-y border-border/50 py-1.5 mt-2">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
+            <div className="flex items-center justify-center gap-4 sm:gap-8 flex-wrap">
+              {TRUST_ITEMS.map(({ icon: Icon, label }) => (
+                <div
+                  key={label}
+                  className="flex items-center gap-1.5 text-xs text-muted-foreground"
+                >
+                  <Icon className="w-3.5 h-3.5 text-primary/60" />
+                  <span>{label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
         <CategoryNav
           activeCategoryId={activeCategoryId}
           sectionRefs={sectionRefs.current}
@@ -88,6 +116,7 @@ export function CategoriesPage() {
       </main>
       <Footer />
       <FloatingCart />
+      <FloatingWhatsApp />
       <CartDrawer />
     </div>
   );

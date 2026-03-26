@@ -3,12 +3,12 @@ import { ArrowRight } from "lucide-react";
 import { CTABanner } from "../components/CTABanner";
 import { CartDrawer } from "../components/CartDrawer";
 import { FloatingCart } from "../components/FloatingCart";
+import { FloatingWhatsApp } from "../components/FloatingWhatsApp";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import { Hero } from "../components/Hero";
 import { WhyChooseUs } from "../components/WhyChooseUs";
-import { CATEGORIES } from "../data/products";
-import { PRODUCTS } from "../data/products";
+import { CATEGORIES, PRODUCTS } from "../data/products";
 
 export function HomePage() {
   const navigate = useNavigate();
@@ -23,10 +23,10 @@ export function HomePage() {
       <main>
         <Hero />
 
-        {/* Category Preview */}
-        <section className="py-12 md:py-16 bg-muted/30">
+        {/* Category Preview — compact */}
+        <section className="py-8 md:py-10 bg-muted/30">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
-            <div className="text-center mb-8">
+            <div className="text-center mb-5">
               <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
                 Shop by Category
               </h2>
@@ -69,6 +69,7 @@ export function HomePage() {
       </main>
       <Footer />
       <FloatingCart />
+      <FloatingWhatsApp />
       <CartDrawer />
     </div>
   );
