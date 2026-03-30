@@ -45,14 +45,14 @@ export function WhyChooseUs() {
           {TRUST_POINTS.map((point, idx) => (
             <div
               key={point.title}
-              className={`bg-background rounded-2xl p-6 border border-border shadow-card transition-all duration-500 ${
+              className={`bg-background rounded-2xl p-6 border border-border shadow-glass transition-all duration-500 hover:-translate-y-1 hover:shadow-card-elevated cursor-default ${
                 isVisible
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-4"
               }`}
               style={{ transitionDelay: `${idx * 80}ms` }}
             >
-              <div className="w-10 h-10 bg-accent rounded-xl flex items-center justify-center mb-4">
+              <div className="w-10 h-10 bg-primary/8 rounded-xl flex items-center justify-center mb-4">
                 <point.icon className="w-5 h-5 text-primary" />
               </div>
               <h3 className="font-semibold text-foreground mb-2">

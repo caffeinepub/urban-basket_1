@@ -30,7 +30,7 @@ export function ProductCard({ product, index }: ProductCardProps) {
 
   return (
     <div
-      className="bg-card rounded-2xl border border-border shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1.5 hover:scale-[1.025] flex flex-col overflow-hidden group cursor-default"
+      className="glass-card rounded-2xl shadow-card hover:shadow-card-elevated hover:shadow-[0_8px_32px_rgba(47,111,206,0.12)] transition-all duration-300 hover:-translate-y-1.5 hover:scale-[1.025] flex flex-col overflow-hidden group cursor-default"
       style={{ animationDelay: `${index * 80}ms` }}
     >
       <div className="relative bg-muted aspect-square overflow-hidden">
@@ -40,10 +40,12 @@ export function ProductCard({ product, index }: ProductCardProps) {
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
           loading="lazy"
         />
+        {/* Hover overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
         {/* Savings badge — top left */}
         {savings > 0 && (
-          <div className="absolute top-2 left-2 bg-slate-800 text-white text-[10px] font-semibold px-2 py-0.5 rounded-full tracking-wide">
+          <div className="absolute top-2 left-2 bg-primary text-white text-[10px] font-semibold px-2 py-0.5 rounded-full tracking-wide">
             Save ₹{savings}
           </div>
         )}
@@ -74,7 +76,7 @@ export function ProductCard({ product, index }: ProductCardProps) {
           </div>
 
           {/* Button / Stepper — Mobile: always show. Desktop: slide up on hover */}
-          <div className="md:opacity-0 md:translate-y-3 md:group-hover:opacity-100 md:group-hover:translate-y-0 md:transition-all md:duration-200">
+          <div className="md:opacity-0 md:translate-y-3 md:group-hover:opacity-100 md:group-hover:translate-y-0 transition-all duration-200 ease-out">
             {cartItem ? (
               <div
                 className="flex items-center gap-1 bg-secondary border border-border rounded-full px-1 py-1 text-xs font-semibold"
@@ -108,11 +110,11 @@ export function ProductCard({ product, index }: ProductCardProps) {
               <button
                 type="button"
                 onClick={() => addToCart(product)}
-                className="flex items-center gap-1 bg-secondary text-secondary-foreground border border-border hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all px-3 py-1.5 rounded-full text-xs font-semibold active:scale-95"
+                className="flex items-center gap-1 bg-primary/8 text-primary border border-primary/20 hover:bg-primary hover:text-primary-foreground hover:border-primary hover:shadow-hero-cta transition-all duration-200 ease-out px-3 py-1.5 rounded-full text-xs font-semibold active:scale-95"
                 data-ocid="product.button"
               >
                 <Plus className="w-3 h-3" />
-                Add to Cart
+                Add
               </button>
             )}
           </div>

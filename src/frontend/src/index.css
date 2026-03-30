@@ -1,4 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap");
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("/assets/fonts/PlusJakartaSans.woff2") format("woff2");
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+}
 
 @tailwind base;
 @tailwind components;
@@ -19,8 +25,8 @@
     --popover: 1 0 0;
     --popover-foreground: 0.145 0 0;
 
-    /* Primary accent: muted blue #2F6FCE => oklch ~0.52 0.14 255 */
-    --primary: 0.52 0.14 255;
+    /* Primary accent: richer slate blue */
+    --primary: 0.5 0.16 250;
     --primary-foreground: 1 0 0;
 
     /* Secondary: light gray */
@@ -33,7 +39,7 @@
 
     /* Accent: slightly blue tint */
     --accent: 0.94 0.01 255;
-    --accent-foreground: 0.52 0.14 255;
+    --accent-foreground: 0.5 0.16 250;
 
     --destructive: 0.577 0.245 27.325;
     --destructive-foreground: 1 0 0;
@@ -41,31 +47,46 @@
     /* Border #E6E6E6 => oklch ~0.91 0 0 */
     --border: 0.91 0 0;
     --input: 0.91 0 0;
-    --ring: 0.52 0.14 255;
+    --ring: 0.5 0.16 250;
 
     --chart-1: 0.646 0.222 41.116;
     --chart-2: 0.6 0.118 184.704;
-    --chart-3: 0.52 0.14 255;
+    --chart-3: 0.5 0.16 250;
     --chart-4: 0.828 0.189 84.429;
     --chart-5: 0.769 0.188 70.08;
 
     --sidebar: 1 0 0;
     --sidebar-foreground: 0.145 0 0;
-    --sidebar-primary: 0.52 0.14 255;
+    --sidebar-primary: 0.5 0.16 250;
     --sidebar-primary-foreground: 1 0 0;
     --sidebar-accent: 0.94 0.01 255;
-    --sidebar-accent-foreground: 0.52 0.14 255;
+    --sidebar-accent-foreground: 0.5 0.16 250;
     --sidebar-border: 0.91 0 0;
-    --sidebar-ring: 0.52 0.14 255;
+    --sidebar-ring: 0.5 0.16 250;
+  }
+
+  html {
+    scroll-behavior: smooth;
   }
 
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground font-sans;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
@@ -76,6 +97,17 @@
   }
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
+  }
+
+  .text-gradient-blue {
+    background: linear-gradient(
+      135deg,
+      oklch(0.5 0.16 250),
+      oklch(0.45 0.18 270)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 }
 
@@ -90,8 +122,67 @@
   }
 }
 
+@keyframes kenBurns {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes blobFloat {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(20px, -15px) scale(1.04);
+  }
+  66% {
+    transform: translate(-10px, 10px) scale(0.97);
+  }
+}
+
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pageExit {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
 .animate-fade-slide-up {
   animation: fadeSlideUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-ken-burns {
+  animation: kenBurns 12s ease-in-out infinite alternate;
+}
+
+.animate-blob {
+  animation: blobFloat 18s ease-in-out infinite;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
 .duration-600 {

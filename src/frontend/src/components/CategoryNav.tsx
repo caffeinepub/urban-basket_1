@@ -25,7 +25,7 @@ export function CategoryNav({
 
   return (
     <div
-      className="sticky top-16 z-40 bg-card/95 backdrop-blur-sm border-b border-border"
+      className="sticky top-16 z-40 bg-white/85 backdrop-blur-md border-b border-white/60"
       id="categories"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -37,24 +37,26 @@ export function CategoryNav({
                 type="button"
                 key={cat.id}
                 onClick={() => handleClick(cat.id)}
-                className={`flex-shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 border ${
+                className={`flex-shrink-0 flex items-center gap-2 px-5 py-2.5 rounded-2xl text-sm font-medium transition-all duration-200 border ${
                   isActive
-                    ? "bg-primary/10 border-primary/40 text-primary shadow-md scale-[1.03]"
+                    ? "bg-primary/10 border-primary/40 text-primary shadow-[0_0_0_2px_oklch(0.50_0.16_250_/_0.25),_0_2px_8px_rgba(47,111,206,0.15)] scale-[1.03]"
                     : "bg-card text-muted-foreground border-border hover:border-primary/30 hover:text-foreground hover:shadow-sm hover:scale-[1.01]"
                 }`}
                 data-ocid="categories.tab"
               >
                 <span
-                  className={`flex items-center justify-center w-7 h-7 rounded-lg text-base transition-colors ${
+                  className={`flex items-center justify-center w-7 h-7 rounded-lg text-base transition-all duration-200 ${
                     isActive ? "bg-primary/12" : "bg-muted"
                   }`}
                 >
                   {cat.emoji}
                 </span>
                 <span>{cat.name}</span>
-                {isActive && (
-                  <span className="ml-1 w-1.5 h-1.5 rounded-full bg-primary" />
-                )}
+                <span
+                  className={`ml-1 w-1.5 h-1.5 rounded-full bg-primary transition-all duration-200 ${
+                    isActive ? "opacity-100 scale-100" : "opacity-0 scale-0"
+                  }`}
+                />
               </button>
             );
           })}

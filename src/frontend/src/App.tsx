@@ -1,17 +1,31 @@
 import {
+  Outlet,
   RouterProvider,
   createHashHistory,
   createRootRoute,
   createRoute,
   createRouter,
+  useLocation,
 } from "@tanstack/react-router";
+import { AnimatePresence } from "motion/react";
 import { CartProvider } from "./context/CartContext";
 import { AboutPage } from "./pages/AboutPage";
 import { CategoriesPage } from "./pages/CategoriesPage";
 import { ContactPage } from "./pages/ContactPage";
 import { HomePage } from "./pages/HomePage";
 
-const rootRoute = createRootRoute();
+function RootLayout() {
+  const location = useLocation();
+  return (
+    <AnimatePresence mode="wait">
+      <Outlet key={location.pathname} />
+    </AnimatePresence>
+  );
+}
+
+const rootRoute = createRootRoute({
+  component: RootLayout,
+});
 
 const indexRoute = createRoute({
   getParentRoute: () => rootRoute,

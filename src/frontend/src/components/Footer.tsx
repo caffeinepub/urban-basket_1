@@ -17,7 +17,9 @@ export function Footer() {
   const caffeineUrl = `https://caffeine.ai?utm_source=caffeine-footer&utm_medium=referral&utm_content=${encodeURIComponent(hostname)}`;
 
   return (
-    <footer className="bg-card border-t border-border">
+    <footer className="bg-card">
+      {/* Gradient separator */}
+      <div className="h-px bg-gradient-to-r from-transparent via-slate-200/70 to-transparent" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-8">
           <div>

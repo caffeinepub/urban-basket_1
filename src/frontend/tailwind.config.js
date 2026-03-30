@@ -67,7 +67,11 @@ export default {
       boxShadow: {
         card: "0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06)",
         "card-hover": "0 4px 12px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.08)",
+        "card-elevated": "0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.08)",
         float: "0 8px 24px rgba(0,0,0,0.16), 0 4px 8px rgba(0,0,0,0.10)",
+        glass: "0 4px 24px rgba(47,111,206,0.10), 0 1px 4px rgba(0,0,0,0.06)",
+        "hero-cta": "0 4px 20px rgba(47,111,206,0.35)",
+        "glow-blue": "0 0 0 3px oklch(0.50 0.16 250 / 0.20), 0 4px 16px rgba(47,111,206,0.18)",
       },
     },
   },

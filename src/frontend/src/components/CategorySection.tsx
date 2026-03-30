@@ -5,10 +5,11 @@ import { ProductCard } from "./ProductCard";
 
 interface CategorySectionProps {
   category: CategoryData;
+  index: number;
 }
 
 export const CategorySection = forwardRef<HTMLElement, CategorySectionProps>(
-  ({ category }, ref) => {
+  ({ category, index }, ref) => {
     const products = PRODUCTS.filter((p) => p.categoryId === category.id);
     const [visibleItems, setVisibleItems] = useState<boolean[]>(
       new Array(products.length).fill(false) as boolean[],
@@ -40,7 +41,7 @@ export const CategorySection = forwardRef<HTMLElement, CategorySectionProps>(
       return () => observer.disconnect();
     }, []);
 
-    // Animate product cards on scroll into view — stagger 80ms
+    // Animate product cards on scroll into view — stagger 90ms
     useEffect(() => {
       const el = containerRef.current;
       if (!el) return;
@@ -57,7 +58,7 @@ export const CategorySection = forwardRef<HTMLElement, CategorySectionProps>(
                   next[idx] = true;
                   return next;
                 });
-              }, idx * 80);
+              }, idx * 90);
             }
             observer.unobserve(el);
           }
@@ -73,7 +74,9 @@ export const CategorySection = forwardRef<HTMLElement, CategorySectionProps>(
       <section
         ref={ref}
         id={`section-${category.id}`}
-        className="py-6 md:py-8 border-b border-border/50 last:border-0"
+        className={`py-6 md:py-8 border-b border-border/50 last:border-0 ${
+          index % 2 === 1 ? "bg-slate-50/80" : "bg-white"
+        }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           {/* Section header — compact, expressive entrance */}
@@ -88,7 +91,7 @@ export const CategorySection = forwardRef<HTMLElement, CategorySectionProps>(
             }}
           >
             <div className="flex items-center gap-3">
-              <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-muted text-xl">
+              <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-primary/8 text-xl">
                 {category.emoji}
               </div>
               <div>

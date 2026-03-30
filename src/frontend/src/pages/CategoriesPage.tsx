@@ -8,6 +8,7 @@ import { FloatingCart } from "../components/FloatingCart";
 import { FloatingWhatsApp } from "../components/FloatingWhatsApp";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
+import { PageTransition } from "../components/PageTransition";
 import { CATEGORIES } from "../data/products";
 
 const TRUST_ITEMS = [
@@ -64,60 +65,63 @@ export function CategoriesPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      <main>
-        {/* Page header — compact */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-5 pb-1 mt-2 animate-fade-slide-up">
-          <h1 className="text-2xl md:text-3xl font-bold text-foreground">
-            Browse Categories
-          </h1>
-          <p className="text-muted-foreground text-sm mt-1">
-            Quality packaged essentials, delivered to your door
-          </p>
-        </div>
+    <PageTransition>
+      <div className="min-h-screen bg-background">
+        <Header />
+        <main>
+          {/* Page header — compact */}
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-5 pb-1 mt-2 animate-fade-slide-up">
+            <h1 className="text-2xl md:text-3xl font-bold text-foreground">
+              Browse Categories
+            </h1>
+            <p className="text-muted-foreground text-sm mt-1">
+              Quality packaged essentials, delivered to your door
+            </p>
+          </div>
 
-        {/* Trust bar — tight */}
-        <div className="bg-muted/30 border-y border-border/50 py-1.5 mt-2">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6">
-            <div className="flex items-center justify-center gap-4 sm:gap-8 flex-wrap">
-              {TRUST_ITEMS.map(({ icon: Icon, label }) => (
-                <div
-                  key={label}
-                  className="flex items-center gap-1.5 text-xs text-muted-foreground"
-                >
-                  <Icon className="w-3.5 h-3.5 text-primary/60" />
-                  <span>{label}</span>
-                </div>
-              ))}
+          {/* Trust bar — tight */}
+          <div className="bg-muted/30 border-y border-border/50 py-1.5 mt-2">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6">
+              <div className="flex items-center justify-center gap-4 sm:gap-8 flex-wrap">
+                {TRUST_ITEMS.map(({ icon: Icon, label }) => (
+                  <div
+                    key={label}
+                    className="flex items-center gap-1.5 text-xs text-muted-foreground"
+                  >
+                    <Icon className="w-3.5 h-3.5 text-primary/60" />
+                    <span>{label}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
 
-        <CategoryNav
-          activeCategoryId={activeCategoryId}
-          sectionRefs={sectionRefs.current}
-          onCategoryClick={setActiveCategoryId}
-        />
-        <div className="bg-background">
-          {CATEGORIES.map((cat) => (
-            <CategorySection
-              key={cat.id}
-              category={cat}
-              ref={(el) => {
-                if (sectionRefs.current[cat.id]) {
-                  sectionRefs.current[cat.id].current = el;
-                }
-              }}
-            />
-          ))}
-        </div>
-        <CTABanner />
-      </main>
-      <Footer />
-      <FloatingCart />
-      <FloatingWhatsApp />
-      <CartDrawer />
-    </div>
+          <CategoryNav
+            activeCategoryId={activeCategoryId}
+            sectionRefs={sectionRefs.current}
+            onCategoryClick={setActiveCategoryId}
+          />
+          <div className="bg-background">
+            {CATEGORIES.map((cat, idx) => (
+              <CategorySection
+                key={cat.id}
+                category={cat}
+                index={idx}
+                ref={(el) => {
+                  if (sectionRefs.current[cat.id]) {
+                    sectionRefs.current[cat.id].current = el;
+                  }
+                }}
+              />
+            ))}
+          </div>
+          <CTABanner />
+        </main>
+        <Footer />
+        <FloatingCart />
+        <FloatingWhatsApp />
+        <CartDrawer />
+      </div>
+    </PageTransition>
   );
 }

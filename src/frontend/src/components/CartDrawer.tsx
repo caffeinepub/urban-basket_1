@@ -165,7 +165,7 @@ export function CartDrawer() {
                 <button
                   type="button"
                   onClick={placeOrder}
-                  className="w-full flex items-center justify-center gap-2 bg-[oklch(0.52_0.18_145)] text-white py-3.5 rounded-full font-semibold text-sm hover:opacity-90 transition-all hover:scale-[1.02] active:scale-95 shadow-md"
+                  className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground py-3.5 rounded-full font-semibold text-sm hover:opacity-90 transition-all hover:scale-[1.02] active:scale-95 shadow-md"
                   data-ocid="cart.confirm_button"
                 >
                   <MessageCircle className="w-4 h-4" />
