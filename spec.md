@@ -1,37 +1,37 @@
 # Urban Basket
 
 ## Current State
-The site is fully built with V8 animations: Ken Burns hero, spring-physics card hover lifts, staggered scroll reveals, slide+fade page transitions, and AnimatePresence throughout. The CategoriesPage shows ALL categories as stacked sections simultaneously; clicking a category nav pill only scrolls to that section (no filtering). Primary CTA buttons have `whileHover` scale but no glow/ripple effect.
+- Footer has Quick Links (Home, Categories, About, Contact), a Contact Us column, and bottom copyright bar
+- No Privacy Policy, Terms & Conditions, or FAQ pages exist (routes would 404 via catchAll → /)
+- Footer links use TanStack Router `<Link>` but have no active state highlighting
+- Hover effect is only a basic `hover:text-foreground transition-colors` — no underline or glow
+- No scroll-to-top behavior on navigation — pages may open mid-scroll
+- WhatsApp in footer is a plain inline link, not a prominent CTA button
+- Footer is not fully responsive for mobile (3-col grid collapses but lacks dedicated legal links section)
+- No legal/footer links section (Privacy Policy, Terms, FAQ) in footer bottom bar
 
 ## Requested Changes (Diff)
 
 ### Add
-- **Category grid animation on switch**: CategoriesPage switches to a single-category filtered view with `AnimatePresence`. When the user taps a category pill, the old product cards fade+exit (100ms), then the new category's cards enter with fade+slide-up stagger (60ms between each). Uses a category key so Framer Motion handles exit/enter cleanly.
-- **Ripple/glow on primary CTA buttons only**: CSS radial-glow pulse on hover + a click ripple keyframe. Applied only to `data-ocid` buttons with `cta.primary_button`, `hero.primary_button`, and the two WhatsApp nav buttons (navbar + mobile menu).
+- Three new pages: `PrivacyPage`, `TermsPage`, `FAQPage` with clean, minimal content
+- Three new routes in App.tsx: `/privacy`, `/terms`, `/faq`
+- Scroll-to-top on every route change (using `useEffect` in RootLayout triggered by `location.pathname`)
+- "Order on WhatsApp" button in footer (prominent, using WHATSAPP_NUMBER)
+- Legal links row in footer bottom bar (Privacy Policy, Terms & Conditions, FAQ/Help)
+- Active page highlight on footer Quick Links (using `useRouterState` or `useMatch`)
+- Premium hover effect on footer links: underline slide-in animation + color change
+- Mobile layout improvements: single column stack, proper spacing
 
 ### Modify
-- **Animation easing refinement** across all components:
-  - Easing: `[0.25, 0.46, 0.45, 0.94]` (ease-out-quart) for all scroll reveals and page transitions
-  - Scroll reveal `y` offset: increase to 24px (currently 20-28px, standardize to visible but not dramatic)
-  - Scroll reveals: duration 600ms
-  - Hover lifts: duration 200ms  
-  - Page transitions: 350ms
-  - Product card stagger: 80ms (from 90ms)
-  - CategorySection stagger: 80ms (from 70ms)
-- **CategoriesPage layout**: Remove stacked always-visible sections. Replace with a single active category display. CategoryNav still shows all pills; clicking one sets `activeCategoryId` and triggers animated card swap via `AnimatePresence mode="wait"`. No scrolling between sections.
-- **CategorySection**: Remove `whileInView` since cards are now always visible (not scrolled into view). Use `AnimatePresence` enter animations instead.
+- `App.tsx`: Add 3 new routes + scroll-to-top effect in RootLayout
+- `Footer.tsx`: Full redesign — active states, hover underline, WhatsApp CTA button, legal links, responsive mobile layout
 
 ### Remove
-- IntersectionObserver logic in CategoriesPage (no longer needed when showing one category at a time)
-- Section-based scroll behavior in CategoryNav (scroll-to-section replaced by filtering)
-- `sectionRefs` ref map and scroll logic
+- Nothing removed — existing pages and routes remain intact
 
 ## Implementation Plan
-1. Update `index.css`: Add `.cta-glow` utility class with CSS `@keyframes ctaGlowPulse` (radial glow ring) and `.cta-ripple` for click ripple. Update easing variables.
-2. Update `CategorySection.tsx`: Convert from scroll-based stacked section to a simple animated card grid that uses `AnimatePresence` + `staggerChildren` for entry. Remove `whileInView` — always render/enter on mount.
-3. Update `CategoriesPage.tsx`: Remove sectionRefs, IntersectionObserver, and scroll logic. Add `AnimatePresence` wrapping `CategorySection` keyed by `activeCategoryId`. CategoryNav click just sets active ID, no scrolling.
-4. Update `CategoryNav.tsx`: Remove scroll-to-section from `handleClick`. Just call `onCategoryClick(id)`.
-5. Update `Hero.tsx`: Add `.cta-glow` class to the primary WhatsApp button.
-6. Update `Header.tsx`: Add `.cta-glow` class to the WhatsApp CTA button (desktop + mobile).
-7. Update `CTABanner.tsx`: Add `.cta-glow` class to the order button.
-8. Refine easing/timing across `PageTransition.tsx`, `ProductCard.tsx`, `CategorySection.tsx`, `WhyChooseUs.tsx`, `CTABanner.tsx`, `HomePage.tsx`.
+1. Create `src/frontend/src/pages/PrivacyPage.tsx` — clean Privacy Policy page with placeholder content
+2. Create `src/frontend/src/pages/TermsPage.tsx` — clean Terms & Conditions page
+3. Create `src/frontend/src/pages/FAQPage.tsx` — FAQ/Help page with accordion-style Q&A
+4. Update `App.tsx`: add 3 routes, add `window.scrollTo(0,0)` in RootLayout `useEffect` on pathname change
+5. Update `Footer.tsx`: new 4-column layout (brand, quick links, legal, contact+WhatsApp CTA), active link detection, slide-underline hover effect, WhatsApp CTA button, fully responsive mobile
