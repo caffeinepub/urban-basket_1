@@ -72,6 +72,8 @@ export default {
         glass: "0 4px 24px rgba(47,111,206,0.10), 0 1px 4px rgba(0,0,0,0.06)",
         "hero-cta": "0 4px 20px rgba(47,111,206,0.35)",
         "glow-blue": "0 0 0 3px oklch(0.50 0.16 250 / 0.20), 0 4px 16px rgba(47,111,206,0.18)",
+        "card-hover-premium": "0 20px 60px rgba(47,111,206,0.18), 0 8px 24px rgba(0,0,0,0.10)",
+        "glow-blue-strong": "0 0 0 3px oklch(0.50 0.16 250 / 0.25), 0 8px 32px rgba(47,111,206,0.25)",
       },
     },
   },

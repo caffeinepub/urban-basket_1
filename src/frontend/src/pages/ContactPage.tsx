@@ -1,5 +1,6 @@
 import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { useState } from "react";
+import { BackToTop } from "../components/BackToTop";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import { PageTransition } from "../components/PageTransition";
@@ -16,7 +17,6 @@ export function ContactPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // No backend — just UI
     setForm({ name: "", phone: "", message: "" });
   };
 
@@ -190,6 +190,7 @@ export function ContactPage() {
           </section>
         </main>
         <Footer />
+        <BackToTop />
       </div>
     </PageTransition>
   );

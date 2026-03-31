@@ -1,5 +1,6 @@
 import { useNavigate } from "@tanstack/react-router";
 import { ChevronRight, MessageCircle, Star } from "lucide-react";
+import { motion } from "motion/react";
 import { WHATSAPP_NUMBER } from "../data/products";
 
 export function Hero() {
@@ -23,47 +24,98 @@ export function Hero() {
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 pb-16 md:pb-24 pt-24 w-full">
         {/* Eyebrow badge */}
-        <div className="inline-flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-full mb-6 bg-white/10 backdrop-blur-sm border border-white/20 text-white/90">
+        <motion.div
+          className="inline-flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-full mb-6 bg-white/10 backdrop-blur-sm border border-white/20 text-white/90"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.5,
+            delay: 0.1,
+            ease: [0.25, 0.46, 0.45, 0.94],
+          }}
+        >
           <span>⚡</span>
           <span>Fast Delivery · Genuine Products</span>
-        </div>
+        </motion.div>
 
         {/* Headline */}
-        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.08] tracking-tight mb-5">
+        <motion.h1
+          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.08] tracking-tight mb-5"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.55,
+            delay: 0.2,
+            ease: [0.25, 0.46, 0.45, 0.94],
+          }}
+        >
           Your Daily Essentials,
           <br />
           <span className="bg-gradient-to-r from-blue-200 to-white/90 bg-clip-text text-transparent">
             Delivered via WhatsApp
           </span>
-        </h1>
+        </motion.h1>
 
         {/* Subtext */}
-        <p className="text-base md:text-lg text-white/70 max-w-md mb-8 leading-relaxed">
+        <motion.p
+          className="text-base md:text-lg text-white/70 max-w-md mb-8 leading-relaxed"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.5,
+            delay: 0.32,
+            ease: [0.25, 0.46, 0.45, 0.94],
+          }}
+        >
           Browse our curated selection of quality packaged products. Add to cart
           and place your order instantly on WhatsApp — no apps, no hassle.
-        </p>
+        </motion.p>
 
         {/* CTA Buttons */}
-        <div className="flex flex-col sm:flex-row gap-3">
-          <a
+        <motion.div
+          className="flex flex-col sm:flex-row gap-3"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.5,
+            delay: 0.42,
+            ease: [0.25, 0.46, 0.45, 0.94],
+          }}
+        >
+          <motion.a
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-white px-7 py-3.5 rounded-full font-semibold shadow-hero-cta hover:shadow-glow-blue transition-all hover:scale-105 active:scale-95"
+            className="inline-flex items-center justify-center gap-2 bg-primary text-white px-7 py-3.5 rounded-full font-semibold shadow-hero-cta cta-glow"
             data-ocid="hero.primary_button"
+            whileHover={{
+              scale: 1.06,
+              boxShadow:
+                "0 8px 32px rgba(47,111,206,0.50), 0 0 0 3px rgba(255,255,255,0.15)",
+            }}
+            whileTap={{ scale: 0.94 }}
+            transition={{ type: "spring", stiffness: 350, damping: 22 }}
           >
             <MessageCircle className="w-4 h-4" />
             Shop via WhatsApp
-          </a>
-          <button
+          </motion.a>
+          <motion.button
             type="button"
-            onClick={() => navigate({ to: "/categories" })}
-            className="inline-flex items-center justify-center gap-2 bg-white/10 backdrop-blur-sm border border-white/25 text-white hover:bg-white/20 px-7 py-3.5 rounded-full font-semibold transition-all"
+            onClick={() =>
+              navigate({ to: "/categories", search: { category: undefined } })
+            }
+            className="inline-flex items-center justify-center gap-2 bg-white/10 backdrop-blur-sm border border-white/25 text-white px-7 py-3.5 rounded-full font-semibold"
             data-ocid="hero.secondary_button"
+            whileHover={{
+              scale: 1.04,
+              backgroundColor: "rgba(255,255,255,0.18)",
+            }}
+            whileTap={{ scale: 0.96 }}
+            transition={{ type: "spring", stiffness: 350, damping: 22 }}
           >
             Browse Products <ChevronRight className="w-4 h-4" />
-          </button>
-        </div>
+          </motion.button>
+        </motion.div>
       </div>
 
       {/* Trust badge — bottom right, desktop only */}

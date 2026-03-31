@@ -1,5 +1,5 @@
 import { Link, useLocation } from "@tanstack/react-router";
-import { Menu, ShoppingBasket, X } from "lucide-react";
+import { Menu, MessageCircle, ShoppingBasket, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { useCart } from "../context/CartContext";
@@ -10,6 +10,9 @@ const NAV_ITEMS = [
   { label: "About", to: "/about" },
   { label: "Contact", to: "/contact" },
 ] as const;
+
+const WHATSAPP_NUMBER = "919876543210";
+const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=Hi%2C%20I%20want%20to%20place%20an%20order%20from%20Urban%20Basket`;
 
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -54,14 +57,27 @@ export function Header() {
               <Link
                 key={item.label}
                 to={item.to}
-                className={`relative text-sm font-medium transition-colors pb-1.5 ${
+                className={`relative text-sm font-medium transition-colors pb-1.5 group ${
                   isActive
                     ? "text-foreground font-semibold"
                     : "text-muted-foreground hover:text-foreground"
                 }`}
                 data-ocid="header.link"
               >
-                {item.label}
+                <motion.span
+                  className="relative"
+                  whileHover={{ y: -0.5 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                >
+                  {item.label}
+                </motion.span>
+                <motion.span
+                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full origin-center"
+                  initial={{ scaleX: isActive ? 1 : 0 }}
+                  animate={{ scaleX: isActive ? 1 : 0 }}
+                  whileHover={{ scaleX: 1 }}
+                  transition={{ duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+                />
                 <span
                   className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-primary transition-all duration-200 ${
                     isActive ? "opacity-100 scale-100" : "opacity-0 scale-0"
@@ -72,22 +88,42 @@ export function Header() {
           })}
         </nav>
 
-        {/* Right: Cart + Mobile Menu */}
+        {/* Right: WhatsApp CTA + Cart + Mobile Menu */}
         <div className="flex items-center gap-3">
-          <button
+          {/* Desktop WhatsApp CTA */}
+          <a
+            href={WHATSAPP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden md:flex items-center gap-1.5 bg-green-500 hover:bg-green-600 text-white text-sm font-medium px-3 py-1.5 rounded-lg transition-colors cta-glow"
+            data-ocid="header.primary_button"
+          >
+            <MessageCircle className="w-4 h-4" />
+            Order on WhatsApp
+          </a>
+
+          <motion.button
             type="button"
             onClick={() => setIsOpen(true)}
             className="relative flex items-center justify-center w-9 h-9 rounded-full hover:bg-muted transition-colors"
             aria-label="Open cart"
             data-ocid="header.button"
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.92 }}
+            transition={{ type: "spring", stiffness: 400, damping: 20 }}
           >
             <ShoppingBasket className="w-5 h-5 text-foreground" />
             {totalItems > 0 && (
-              <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-[10px] font-bold rounded-full flex items-center justify-center leading-none min-w-[18px] min-h-[18px] px-1">
+              <motion.span
+                className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-[10px] font-bold rounded-full flex items-center justify-center leading-none min-w-[18px] min-h-[18px] px-1"
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring", stiffness: 500, damping: 20 }}
+              >
                 {totalItems}
-              </span>
+              </motion.span>
             )}
-          </button>
+          </motion.button>
 
           <button
             type="button"
@@ -130,7 +166,7 @@ export function Header() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="md:hidden bg-card border-t border-border px-4 flex flex-col gap-1 overflow-hidden"
           >
             <div className="py-3 flex flex-col gap-1">
@@ -152,6 +188,18 @@ export function Header() {
                   </Link>
                 );
               })}
+              {/* Mobile WhatsApp CTA */}
+              <a
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white text-sm font-semibold py-2.5 px-4 rounded-xl transition-colors mt-1 mb-3 cta-glow"
+                onClick={() => setMenuOpen(false)}
+                data-ocid="header.primary_button"
+              >
+                <MessageCircle className="w-4 h-4" />
+                Order on WhatsApp
+              </a>
             </div>
           </motion.div>
         )}

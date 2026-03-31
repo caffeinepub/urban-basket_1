@@ -1,4 +1,5 @@
 import { Minus, Plus } from "lucide-react";
+import { motion } from "motion/react";
 import { useCart } from "../context/CartContext";
 import type { ProductData } from "../data/products";
 
@@ -22,18 +23,28 @@ const TAG_CONFIG = {
   },
 };
 
-export function ProductCard({ product, index }: ProductCardProps) {
+export function ProductCard({ product }: ProductCardProps) {
   const { addToCart, updateQuantity, items } = useCart();
   const cartItem = items.find((i) => i.product.id === product.id);
   const savings = product.originalPrice - product.price;
   const tagConfig = product.tag ? TAG_CONFIG[product.tag] : null;
 
   return (
-    <div
-      className="glass-card rounded-2xl shadow-card hover:shadow-card-elevated hover:shadow-[0_8px_32px_rgba(47,111,206,0.12)] transition-all duration-300 hover:-translate-y-1.5 hover:scale-[1.025] flex flex-col overflow-hidden group cursor-default"
-      style={{ animationDelay: `${index * 80}ms` }}
+    <motion.div
+      className="glass-card rounded-2xl flex flex-col overflow-hidden group cursor-default"
+      whileHover={{
+        y: -10,
+        scale: 1.02,
+        boxShadow:
+          "0 20px 60px rgba(47,111,206,0.20), 0 8px 24px rgba(0,0,0,0.12)",
+      }}
+      whileTap={{ scale: 0.98 }}
+      transition={{ type: "spring", stiffness: 280, damping: 22 }}
+      style={{
+        boxShadow: "0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06)",
+      }}
     >
-      <div className="relative bg-muted aspect-square overflow-hidden">
+      <div className="relative bg-muted aspect-[4/3] overflow-hidden">
         <img
           src={product.image}
           alt={product.name}
@@ -75,8 +86,12 @@ export function ProductCard({ product, index }: ProductCardProps) {
             </span>
           </div>
 
-          {/* Button / Stepper — Mobile: always show. Desktop: slide up on hover */}
-          <div className="md:opacity-0 md:translate-y-3 md:group-hover:opacity-100 md:group-hover:translate-y-0 transition-all duration-200 ease-out">
+          {/* Button / Stepper — always visible */}
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 400, damping: 20 }}
+          >
             {cartItem ? (
               <div
                 className="flex items-center gap-1 bg-secondary border border-border rounded-full px-1 py-1 text-xs font-semibold"
@@ -110,16 +125,16 @@ export function ProductCard({ product, index }: ProductCardProps) {
               <button
                 type="button"
                 onClick={() => addToCart(product)}
-                className="flex items-center gap-1 bg-primary/8 text-primary border border-primary/20 hover:bg-primary hover:text-primary-foreground hover:border-primary hover:shadow-hero-cta transition-all duration-200 ease-out px-3 py-1.5 rounded-full text-xs font-semibold active:scale-95"
+                className="flex items-center gap-1 bg-primary/8 text-primary border border-primary/20 hover:bg-primary hover:text-primary-foreground hover:border-primary hover:shadow-[0_4px_20px_rgba(47,111,206,0.35)] transition-all duration-200 ease-out px-3 py-1.5 rounded-full text-xs font-semibold active:scale-95"
                 data-ocid="product.button"
               >
                 <Plus className="w-3 h-3" />
                 Add
               </button>
             )}
-          </div>
+          </motion.div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

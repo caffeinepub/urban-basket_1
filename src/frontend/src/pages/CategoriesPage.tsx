@@ -1,5 +1,8 @@
+import { Link, useSearch } from "@tanstack/react-router";
 import { Lock, RefreshCw, ShieldCheck, Truck } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { AnimatePresence } from "motion/react";
+import { useEffect, useState } from "react";
+import { BackToTop } from "../components/BackToTop";
 import { CTABanner } from "../components/CTABanner";
 import { CartDrawer } from "../components/CartDrawer";
 import { CategoryNav } from "../components/CategoryNav";
@@ -19,58 +22,37 @@ const TRUST_ITEMS = [
 ];
 
 export function CategoriesPage() {
-  const [activeCategoryId, setActiveCategoryId] = useState(CATEGORIES[0].id);
+  const { category } = useSearch({ from: "/categories" });
+  const [activeCategoryId, setActiveCategoryId] = useState(
+    () => category || CATEGORIES[0].id,
+  );
 
-  const sectionRefs = useRef<
-    Record<string, React.RefObject<HTMLElement | null>>
-  >(Object.fromEntries(CATEGORIES.map((c) => [c.id, { current: null }])));
-
-  // Hash-based scroll on mount
+  // Sync with URL search param on mount
   useEffect(() => {
-    const hash = window.location.hash.replace("#", "");
-    if (hash) {
-      setTimeout(() => {
-        const el = document.getElementById(hash);
-        if (el) {
-          el.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-      }, 100);
-    }
-  }, []);
+    if (category) setActiveCategoryId(category);
+  }, [category]);
 
-  // IntersectionObserver to track active category
-  useEffect(() => {
-    const observers: IntersectionObserver[] = [];
-
-    for (const cat of CATEGORIES) {
-      const el = sectionRefs.current[cat.id]?.current;
-      if (!el) continue;
-
-      const obs = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            setActiveCategoryId(cat.id);
-          }
-        },
-        { threshold: 0.3, rootMargin: "-80px 0px -50% 0px" },
-      );
-      obs.observe(el);
-      observers.push(obs);
-    }
-
-    return () => {
-      for (const o of observers) o.disconnect();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const activeCategory =
+    CATEGORIES.find((c) => c.id === activeCategoryId) ?? CATEGORIES[0];
 
   return (
     <PageTransition>
       <div className="min-h-screen bg-background">
         <Header />
         <main>
-          {/* Page header — compact */}
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-5 pb-1 mt-2 animate-fade-slide-up">
+          {/* Breadcrumb */}
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-3">
+            <nav className="flex items-center gap-1.5 text-xs text-muted-foreground">
+              <Link to="/" className="hover:text-foreground transition-colors">
+                Home
+              </Link>
+              <span>/</span>
+              <span className="text-foreground font-medium">Categories</span>
+            </nav>
+          </div>
+
+          {/* Page header */}
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-3 pb-1 animate-fade-slide-up">
             <h1 className="text-2xl md:text-3xl font-bold text-foreground">
               Browse Categories
             </h1>
@@ -79,7 +61,7 @@ export function CategoriesPage() {
             </p>
           </div>
 
-          {/* Trust bar — tight */}
+          {/* Trust bar */}
           <div className="bg-muted/30 border-y border-border/50 py-1.5 mt-2">
             <div className="max-w-7xl mx-auto px-4 sm:px-6">
               <div className="flex items-center justify-center gap-4 sm:gap-8 flex-wrap">
@@ -98,29 +80,26 @@ export function CategoriesPage() {
 
           <CategoryNav
             activeCategoryId={activeCategoryId}
-            sectionRefs={sectionRefs.current}
             onCategoryClick={setActiveCategoryId}
           />
-          <div className="bg-background">
-            {CATEGORIES.map((cat, idx) => (
+
+          <div className="bg-background min-h-[400px]">
+            <AnimatePresence mode="wait">
               <CategorySection
-                key={cat.id}
-                category={cat}
-                index={idx}
-                ref={(el) => {
-                  if (sectionRefs.current[cat.id]) {
-                    sectionRefs.current[cat.id].current = el;
-                  }
-                }}
+                key={activeCategoryId}
+                category={activeCategory}
+                index={0}
               />
-            ))}
+            </AnimatePresence>
           </div>
+
           <CTABanner />
         </main>
         <Footer />
         <FloatingCart />
         <FloatingWhatsApp />
         <CartDrawer />
+        <BackToTop />
       </div>
     </PageTransition>
   );

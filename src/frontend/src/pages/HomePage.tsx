@@ -1,5 +1,7 @@
 import { useNavigate } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
+import { motion } from "motion/react";
+import { BackToTop } from "../components/BackToTop";
 import { CTABanner } from "../components/CTABanner";
 import { CartDrawer } from "../components/CartDrawer";
 import { FloatingCart } from "../components/FloatingCart";
@@ -11,11 +13,28 @@ import { PageTransition } from "../components/PageTransition";
 import { WhyChooseUs } from "../components/WhyChooseUs";
 import { CATEGORIES, PRODUCTS } from "../data/products";
 
+const categoryGridVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.07, delayChildren: 0.05 } },
+};
+
+const categoryCardVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.55,
+      ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number],
+    },
+  },
+};
+
 export function HomePage() {
   const navigate = useNavigate();
 
   const handleCategoryClick = (categoryId: string) => {
-    navigate({ to: "/categories", hash: `section-${categoryId}` });
+    navigate({ to: "/categories", search: { category: categoryId } });
   };
 
   return (
@@ -34,26 +53,51 @@ export function HomePage() {
               style={{ animationDelay: "6s" }}
             />
             <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6">
-              <div className="text-center mb-5">
+              <motion.div
+                className="text-center mb-5"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+              >
                 <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
                   Shop by Category
                 </h2>
                 <p className="text-muted-foreground text-sm">
                   Browse our carefully curated selection of everyday essentials
                 </p>
-              </div>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">
+              </motion.div>
+              <motion.div
+                className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4"
+                variants={categoryGridVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-40px" }}
+              >
                 {CATEGORIES.map((cat) => {
                   const count = PRODUCTS.filter(
                     (p) => p.categoryId === cat.id,
                   ).length;
                   return (
-                    <button
+                    <motion.button
                       key={cat.id}
                       type="button"
                       onClick={() => handleCategoryClick(cat.id)}
-                      className="glass-card rounded-2xl p-4 md:p-5 flex flex-col items-start gap-2 hover:shadow-glass hover:shadow-[0_4px_20px_rgba(47,111,206,0.12)] hover:border-primary/30 transition-all duration-200 hover:-translate-y-0.5 text-left group"
+                      className="glass-card rounded-2xl p-4 md:p-5 flex flex-col items-start gap-2 hover:border-primary/30 transition-colors duration-200 text-left group"
                       data-ocid="categories.button"
+                      variants={categoryCardVariants}
+                      whileHover={{
+                        y: -4,
+                        scale: 1.02,
+                        boxShadow:
+                          "0 8px 32px rgba(47,111,206,0.16), 0 2px 8px rgba(0,0,0,0.08)",
+                      }}
+                      whileTap={{ scale: 0.97 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 320,
+                        damping: 22,
+                      }}
                     >
                       <span className="text-2xl md:text-3xl">{cat.emoji}</span>
                       <div className="flex-1">
@@ -65,10 +109,10 @@ export function HomePage() {
                         </p>
                       </div>
                       <ArrowRight className="w-3.5 h-3.5 text-primary opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </button>
+                    </motion.button>
                   );
                 })}
-              </div>
+              </motion.div>
             </div>
           </section>
 
@@ -79,6 +123,7 @@ export function HomePage() {
         <FloatingCart />
         <FloatingWhatsApp />
         <CartDrawer />
+        <BackToTop />
       </div>
     </PageTransition>
   );

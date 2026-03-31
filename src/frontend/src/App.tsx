@@ -1,4 +1,5 @@
 import {
+  Navigate,
   Outlet,
   RouterProvider,
   createHashHistory,
@@ -25,6 +26,7 @@ function RootLayout() {
 
 const rootRoute = createRootRoute({
   component: RootLayout,
+  notFoundComponent: () => <Navigate to="/" />,
 });
 
 const indexRoute = createRoute({
@@ -36,6 +38,9 @@ const indexRoute = createRoute({
 const categoriesRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/categories",
+  validateSearch: (search: Record<string, unknown>) => ({
+    category: typeof search.category === "string" ? search.category : undefined,
+  }),
   component: CategoriesPage,
 });
 
@@ -51,11 +56,18 @@ const contactRoute = createRoute({
   component: ContactPage,
 });
 
+const catchAllRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "$",
+  component: () => <Navigate to="/" />,
+});
+
 const routeTree = rootRoute.addChildren([
   indexRoute,
   categoriesRoute,
   aboutRoute,
   contactRoute,
+  catchAllRoute,
 ]);
 
 const hashHistory = createHashHistory();
